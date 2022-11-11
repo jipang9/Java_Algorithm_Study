@@ -1,0 +1,5 @@
+package Java;
+
+public interface Runnable {
+    void run(int x, int y);
+}
