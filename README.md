@@ -14,3 +14,4 @@ https://www.acmicpc.net/
 #### 위와 같은 사이트와 강의를 적극 활용하겠습니다.
 
 ### 활용 언어
+<img src="https://img.shields.io/badge/Java-F89917?style=for-the-badge&logo=appveyor&logo=Java&logoColor=white"/>
