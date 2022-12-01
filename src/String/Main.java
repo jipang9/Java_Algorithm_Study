@@ -94,7 +94,6 @@ public class Main {
     // <접근방식> 고민해보기 정방향 -> 역방향 순으로 반복문을 통해 해당 요소가 있는지 확인하고, 값을 기준으로 최소거리를 저장하면 됐었음.
     // 본 강의에서는 Math.min()을 이용해 기존에 있던 배열의 요소와 새로운 값을 비교해 더 작은 값을 넣는 방식 (더 간단함)
     // 나는 이 부분을 직접 조건식을 통해 해결하려고 했었음
-
     /**
      * 내가 작성한 solution*
      * public int[] solution(String s,char t){
@@ -131,15 +130,98 @@ public class Main {
 
     //NUMBER : 11
     // 설명 : 알파벳 대문자로 이루어진 문자열을 입력받아 -> 같은 문자가 연속으로 반복되는 경우 반복 문자 바로 오른쪽에 반복 횟수를 표기
-    // ex) KKHSSSSSSSF -> K2H1S7F1 이런방식으로
+    // ex) KKHSSSSSSSF -> K2H1S7F1 이런방식으로 -> 이렇게 하는 줄 알았는데, 1개인 부분은 1은 안찍고 그냥 알파벳만 찍음
     // 고민해보기
+    // 우선 반복문 탐색(String 길이) -> 문자열 앞, 뒤 요소 비교하고 같으면 count 증가, 다르면 해당 문자열 요소와 count 저장
+    // 근데 이렇게 하면 StringboundaryException 발생 -> 당연함 요소가 없는데 어떻게 비교하냐? (이 부분에서 고민 많이 함)
+    // -> 해결책 : 그냥 빈 여백 하나 추가..?
+    /**
+     * 내가 작성한 solution*
+    public String solution(String a) {
+        String s = a + " ";
+        String answer = "";
+        int count = 1;
+        for (int i = 0; i < s.length() - 1; i++) {
+            if (s.charAt(i) == s.charAt(i + 1)) {
+                count++;
+            } else {
+                answer = answer + s.charAt(i);
+                if (count > 1) {
+                    answer = answer + Integer.toString(count);
+                    count = 1;
+                }
+            }
+        }
+        return answer;
+    }
 
-//    public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        String input = scanner.next();
-//
-//        for(int i=0; i<input.length(); i++){
-//
-//        }
-//    }
+    public static void main(String[] args) {
+        Main T = new Main();
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.next();
+        System.out.println(T.solution(input));
+
+    }
+     */
+
+    // NUMBER : 12
+    // 설명 : 알파벳 한 문자마다 # or *이 7개로 구성되어 있다 -> 입력된 # or * 일곱자리의 이진수(#->1, *->0)으로 변환 ->
+    // 이렇게 바뀐 이진수를 다시 10진수로 변환  -> 이 10진수를 아스키 코드로 변환 -> 그리고 출력
+    // ex) 4 #****###**#####**#####**##**  -> COOL
+    // 로직 순서 -> 입력받은 문자열을 이진수로 변환 -> 이 이진수를 쪼갬과 동시에 10진수로 변환하고, 그 요소를 배열에 저장
+    // -> 배열의 인덱스엔 10진수가 저장되어있으니까 이 배열을 순회하면서 10진수를 아스키코드로 변환 -> 출력 끝!
+    // 고민해보기 <접근방식>
+    // 로직을 위의 설명처럼 구성했음. 과연 더욱 효율적인 방법이 있을까?
+    /**
+     * 내가 구현한 solution*
+    public void solution(int num, String p){
+        String a = "";
+        String answer = "";
+        int []arr = new int[num];
+        for(int i=0; i<p.length(); i++){
+            if(p.charAt(i)=='#'){
+                a=a+'1';
+            }else{
+                a=a+'0';
+            }
+        }
+        for(int i=0; i<num; i++){
+            String b=a.substring(i*7,((i*7)+7));
+            int c = Integer.parseInt(b,2);
+            arr[i]=c;
+        }
+        for(int i=0; i<num; i++){
+            char ch = (char) arr[i];
+            System.out.print(ch);
+        }
+    }
+
+    public static void main(String[] args) {
+        Main T = new Main();
+        Scanner scanner = new Scanner(System.in);
+        int num = scanner.nextInt();
+        String password = scanner.next();
+        T.solution(num,password);
+    }
+     */
+    /**
+     * 해설강의 -> 너무 코드가 간결하다 내가 작성한 로직에 비해*
+    public String solution(int n, String s){
+        String answer="";
+        for(int i=0; i<n; i++){
+            String tmp=s.substring(0,7).replace('#','1').replace('*','0');
+            int num = Integer.parseInt(tmp,2);
+            answer += (char)num;
+            s=s.substring(7);
+        }
+        return answer;
+    }
+    public static void main(String[] args) {
+        Main T = new Main();
+        Scanner scanner = new Scanner(System.in);
+        int num = scanner.nextInt();
+        String password = scanner.next();
+        System.out.println(T.solution(num,password));
+    }
+     */
 }
